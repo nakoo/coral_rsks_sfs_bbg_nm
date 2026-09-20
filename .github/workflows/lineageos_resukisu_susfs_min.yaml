@@ -2,8 +2,8 @@ name: coral lineageos with resukisu susfs bbg nomount min
 
 on:
   schedule:
-    # Runs at 13:00 UTC every day
-    - cron: '0 13 * * *'
+    # Runs at 10:10 UTC every day
+    - cron: '10 10 * * *'
   workflow_dispatch:
     inputs:
       base_img_url:

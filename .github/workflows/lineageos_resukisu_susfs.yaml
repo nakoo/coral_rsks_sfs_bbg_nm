@@ -1,9 +1,6 @@
 name: coral lineageos with resukisu susfs
 
 on:
-  schedule:
-    # Runs at 13:00 UTC every day
-    - cron: '0 13 * * *'
   workflow_dispatch:
     inputs:
       base_img_url:
