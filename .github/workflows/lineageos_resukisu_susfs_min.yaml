@@ -16,7 +16,7 @@ env:
 
 jobs:
   build-resukisu-coral-4-14:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Free runner space
