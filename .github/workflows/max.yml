@@ -25,7 +25,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y build-essential flex bison libssl-dev libelf-dev \
-            libncurses5-dev make zip git curl python3 bc cpio lz4 patch
+            libncurses5-dev make zip git curl python3 bc cpio lz4 patch gawk
 
       - name: Clone AOSP mkbootimg Tools
         run: |
@@ -59,7 +59,8 @@ jobs:
 
       - name: Download Base boot.img
         run: |
-          echo "=== Downloading base boot.img ==="
+          TARGET_URL="${{ inputs.base_img_url || env.DEFAULT_BASE_IMG_URL }}"
+          echo "=== Downloading base boot.img from: $TARGET_URL ==="
           curl -fSL \
             --retry 5 \
             --retry-delay 5 \
@@ -67,15 +68,18 @@ jobs:
             --connect-timeout 30 \
             --max-time 600 \
             -o base.img \
-            "${{ inputs.base_img_url }}"
+            "$TARGET_URL"
           ls -la base.img
 
-      - name: Extract KERNELRELEASE from Base boot.img
+      - name: Extract KERNELRELEASE and mkbootimg args from Base boot.img
         run: |
           echo "=== Extracting stock vermagic directly from base.img ==="
-          mkdir -p base_unpacked
-          python3 mkbootimg_tools/unpack_bootimg.py --boot_img base.img --out base_unpacked
-          lz4 -dc base_unpacked/kernel > /tmp/base_Image
+          mkdir -p unpacked out_artifacts
+          python3 mkbootimg_tools/unpack_bootimg.py \
+            --boot_img base.img \
+            --out unpacked \
+            --format mkbootimg > mkbootimg_args
+          lz4 -dc unpacked/kernel > /tmp/base_Image
           STOCK_RELEASE=$(strings /tmp/base_Image | grep -E "Linux version [0-9]" | head -n 1 | awk '{print $3}')
           echo "Extracted Stock KERNELRELEASE: $STOCK_RELEASE"
           test -n "$STOCK_RELEASE" || { echo "::error::Failed to extract vermagic from base.img"; exit 1; }
