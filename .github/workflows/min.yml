@@ -1,9 +1,9 @@
-name: coral lineageos with resukisu susfs bbg nomount min
+name: min setup
 
 on:
   schedule:
-    # Runs at 10:10 UTC every day
-    - cron: '10 10 * * *'
+    # Runs at 08:10 UTC every day
+    - cron: '10 08 * * *'
   workflow_dispatch:
     inputs:
       base_img_url:
@@ -16,7 +16,7 @@ env:
 
 jobs:
   build-resukisu-coral-4-14:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Free runner space
