@@ -12,7 +12,7 @@ on:
         type: string
 
 env:
-  DEFAULT_BASE_IMG_URL: "https://mirrorbits.lineageos.org/full/coral/20260918/boot.img"
+  DEFAULT_BASE_IMG_URL: "https://mirrorbits.lineageos.org/full/coral/20260925/boot.img"
 
 jobs:
   build-resukisu-coral-4-14:
