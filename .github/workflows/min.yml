@@ -2,8 +2,7 @@ name: min setup
 
 on:
   schedule:
-    # Runs at 08:10 UTC every day
-    - cron: '10 08 * * *'
+    - cron: '47 */6 * * *'
   workflow_dispatch:
     inputs:
       base_img_url:
